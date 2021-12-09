@@ -25,8 +25,12 @@ class GoogleAuth extends React.Component {
   //the .init code only initializes the library, it doesn't take the user to/through the oauth process (happens on .then)
   //gapi library holds your login status in between refreshes of the page
 
-  onAuthChange = () => {
-    this.setState({ isSignedIn: this.auth.isSignedIn.get() });
+  onAuthChange = (isSignedIn) => {
+    if (isSignedIn) {
+      this.props.signIn();
+    } else {
+      this.props.signOut();
+    }
   };
   //arrow function binds the content to our component
 
@@ -65,4 +69,4 @@ class GoogleAuth extends React.Component {
   }
 }
 
-export default GoogleAuth;
+export default connect(null, { signIn, signOut })(GoogleAuth);

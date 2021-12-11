@@ -1,7 +1,9 @@
 import React from 'react';
-import { Field, formValues, reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 //Field - component (to show on screen)
 //reduxForm - function (very similar to connect function)
+import { connect } from 'react-redux';
+import { createStream } from '../../actions';
 
 class StreamCreate extends React.Component {
   renderError({ error, touched }) {
@@ -37,9 +39,11 @@ class StreamCreate extends React.Component {
     );
   };
 
-  onSubmit(formValues) {
-    console.log(formValues);
-  }
+  onSubmit = (formValues) => {
+    //console.log(formValues);
+    this.props.createStream(formValues);
+  };
+  //Arrow functions don't bind the value of this, so they just use lexical scope. The value of this remains whatever it was at the time when the arrow function was defined.
 
   render() {
     //console.log(this.props);
@@ -79,8 +83,10 @@ const validate = (formValues) => {
   return errors;
 };
 
-export default reduxForm({
+const formWrapped = reduxForm({
   form: 'streamCreate',
   validate,
 })(StreamCreate);
 //'streamCreate' - name of the form, describing the purpose of the form
+
+export default connect(null, { createStream })(formWrapped);

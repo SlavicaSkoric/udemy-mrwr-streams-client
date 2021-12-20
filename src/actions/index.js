@@ -1,4 +1,5 @@
 import streams from '../apis/streams';
+import history from '../history';
 import {
   SIGN_IN,
   SIGN_OUT,
@@ -23,12 +24,18 @@ export const signOut = () => {
 };
 
 //creating a new action creator to handle the creation of api requests
-export const createStream = (formValues) => async (dispatch) => {
-  const response = await streams.post('/streams', formValues);
+export const createStream = (formValues) => async (dispatch, getState) => {
+  const { userId } = getState().auth;
+  const response = await streams.post('/streams', { ...formValues, userId });
 
   dispatch({ type: CREATE_STREAM, payload: response.data });
+  //do some programmatic navigation to get the user back to the root route
+  history.push('/');
+  //push is how we navigate the user around
+  //we call push with the string where we want the user to go to
 };
 //post request w axios above, we put all our formValues in there
+//getState returns the entire state object
 
 export const fetchStreams = () => async (dispatch) => {
   const response = await streams.get('/streams');

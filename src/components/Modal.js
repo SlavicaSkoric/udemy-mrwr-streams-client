@@ -3,9 +3,14 @@ import ReactDOM from 'react-dom';
 
 const Modal = (props) => {
   return ReactDOM.createPortal(
-    <div className='ui dimmer modals visible active'>
-      <div className='ui standard modal visible active'>
-        ksajdskj klahsdlashasj
+    <div onClick={props.onDismiss} className='ui dimmer modals visible active'>
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className='ui standard modal visible active'
+      >
+        <div className='header'>{props.title}</div>
+        <div className='content'>{props.content}</div>
+        <div className='actions'>{props.actions}</div>
       </div>
     </div>,
     //first argument - some jsx
@@ -13,5 +18,6 @@ const Modal = (props) => {
     document.querySelector('#modal')
   );
 };
+//portals used w modals or with some code that was not created by our app
 
 export default Modal;

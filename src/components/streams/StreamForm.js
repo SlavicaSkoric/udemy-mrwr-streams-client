@@ -86,3 +86,4 @@ export default reduxForm({
   validate,
 })(StreamForm);
 //'streamForm' - name of the form, describing the purpose of the form
+//StreamForm gets wrapped up inside our reduxForm, it gets wrapped by that helper right there
